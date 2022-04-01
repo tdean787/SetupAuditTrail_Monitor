@@ -1,9 +1,32 @@
+from crypt import methods
 from simple_salesforce import Salesforce
 from dotenv import load_dotenv
 import os
 import pandas as pd
 import datetime
 from datetime import date
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+messages = [{'title': 'Message One',
+             'content': 'Message One Content'},
+            {'title': 'Message Two',
+             'content': 'Message Two Content'}
+            ]
+
+@app.route('/')
+def index():
+    return render_template('/base.html')
+
+@app.route('/form')
+def form():
+    return render_template('/form.html', messages=messages)
+
+@app.route('/create/', methods=('GET', 'POST'))
+def create():
+    return render_template('create.html')
+
 load_dotenv()
 
 password=os.getenv("password")
